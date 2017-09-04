@@ -1,0 +1,43 @@
+﻿<p *ngIf="!tweets"><em>Loading...</em></p>
+
+<div class="slds-feed">
+    <div class="slds-page-header">
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <input type="text" id="search" class="slds-input" placeholder="Search" (input)="filter()" [(ngModel)]="filterText" />
+            </div>
+        </div>
+    </div>
+    <ul class="slds-feed__list">
+        <ng-container *ngFor="let tweet of tweets">
+            <li class="slds-feed__item" *ngIf="tweet.isVisible">
+                <article class="slds-post">
+                    <header class="slds-post__header slds-media">
+                        <div class="slds-media__figure">
+                            <a href="javascript:void(0);" class="slds-avatar slds-avatar_circle slds-avatar_large">
+                                <img alt="{{tweet.userName}}" src="{{tweet.userProfileImageUrl}}" title="{{tweet.userName}} avatar">
+                            </a>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
+                                <p><a href="javascript:void(0);" title="{{tweet.userName}}">{{tweet.userName}}</a> — <a href="javascript:void(0);" title="{{tweet.userScreenName}}">@{{tweet.userScreenName}}</a></p>                                
+                            </div>
+                            <p class="slds-text-body_small"><a href="javascript:void(0);" title="{{tweet.createdOn | date: 'MMM dd, yyyy - hh:mm a Z'}}" class="slds-text-link_reset">{{tweet.fromNow}}</a></p>
+                        </div>
+                    </header>
+                    <div class="slds-post__content slds-text-longform">
+                        <p [innerHTML]="tweet.message"></p>
+                    </div>
+                    <div class="slds-post__content slds-image" *ngIf="tweet.imageUrls && tweet.imageUrls.length > 0">
+                        <img src="{{tweet.imageUrls[0]}}" />
+                    </div>
+                    <footer class="slds-post__footer">
+                        <ul class="slds-post__footer-meta-list slds-list_horizontal slds-has-dividers_right slds-text-title">
+                            <li class="slds-item">{{tweet.retweetCount}} reTweets</li>
+                        </ul>
+                    </footer>
+                </article>
+            </li>
+        </ng-container>
+    </ul>
+</div>
