@@ -12,14 +12,15 @@ namespace Feeder
     {
         private readonly Uri baseUri;
         private readonly DelegatingHandler mockHandler;
+        public readonly string bearerToken;
 
-        public RestClient(string baseUrl) 
-            : this(baseUrl, null)
+        public RestClient(string baseUrl, string bearerToken) 
+            : this(baseUrl, bearerToken , null)
         {
 
         }
 
-        public RestClient(string baseUrl, DelegatingHandler mockHandler)
+        public RestClient(string baseUrl, string bearerToken, DelegatingHandler mockHandler)
         {
             if (baseUrl == null)
             {
@@ -33,9 +34,10 @@ namespace Feeder
 
             baseUri = new Uri(baseUrl);
             this.mockHandler = mockHandler;
+            this.bearerToken = bearerToken;
         }
 
-        public async Task<T> GetAsync<T>(string relativeUrl, string bearerToken)
+        public async Task<T> GetAsync<T>(string relativeUrl)
         {
             if (relativeUrl == null)
             {

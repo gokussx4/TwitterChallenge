@@ -4,6 +4,6 @@ namespace Feeder
 {
     public interface IRestClient
     {
-        Task<T> GetAsync<T>(string relativeUrl, string bearerToken);
+        Task<T> GetAsync<T>(string relativeUrl);
     }
 }

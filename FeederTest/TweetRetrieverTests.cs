@@ -17,10 +17,11 @@ namespace FeederTest
         {
             var mockClientHandler = new MockHttpClientHandler();
 
-            string lastTenTweetsUrl = @"statuses/user_timeline.json?screen_name=salesforce&tweet_mode=extended&count=10&sort_by=created_at-desc";
-            string baseUrl = @"https://api.twitter.com/1.1/";
+            string fakeLastTenTweetsUrl = @"statuses/user_timeline.json?screen_name=salesforce&tweet_mode=extended&count=10&sort_by=created_at-desc";
+            string fakeBaseUrl = @"https://api.twitter.com/1.1/";
+            string fakeBearerToken = @"asdlkfjadsfoxijfvlkad";
 
-            mockClientHandler.AddFakeResponse(new Uri(baseUrl + lastTenTweetsUrl),
+            mockClientHandler.AddFakeResponse(new Uri(fakeBaseUrl + fakeLastTenTweetsUrl),
             new HttpResponseMessage(System.Net.HttpStatusCode.Accepted)
             {
                 Content = new ObjectContent<Status[]>(new Status[]
@@ -40,7 +41,7 @@ namespace FeederTest
                     }, new JsonMediaTypeFormatter())
             });
 
-            IRestClient restClient = new RestClient(baseUrl, mockClientHandler);
+            IRestClient restClient = new RestClient(fakeBaseUrl, fakeBearerToken, mockClientHandler);
 
             TweetRetriever tweetRetriever = new TweetRetriever(restClient);
 
@@ -48,8 +49,8 @@ namespace FeederTest
 
             tweets.Wait();
 
-            Assert.Collection(tweets.Result, 
-                (tweet) => tweet.Message.Contains("Testing"), 
+            Assert.Collection(tweets.Result,
+                (tweet) => tweet.Message.Contains("Testing"),
                 (tweet) => tweet.Message.Contains("Testing 2"));
         }
 

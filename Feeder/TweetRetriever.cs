@@ -11,8 +11,7 @@ namespace Feeder
     public class TweetRetriever
     {
         private readonly IRestClient restClient;
-        private const string LastTenTweetsUrl = @"statuses/user_timeline.json?screen_name=salesforce&tweet_mode=extended&count=10&sort_by=created_at-desc";
-        private const string BearerToken = @"AAAAAAAAAAAAAAAAAAAAAGOg2AAAAAAA3ZlP4i%2FVqcp%2BFw84sVk29GJShWE%3DRJuyPmrTAIiudTS5lvQfOjminfWBE1H1pG7Mkp8UrSn8E6MSIM";
+        private const string LastTenTweetsUrl = @"statuses/user_timeline.json?screen_name=salesforce&tweet_mode=extended&count=10&sort_by=created_at-desc";        
 
         public TweetRetriever(IRestClient restClient)
         {
@@ -21,7 +20,7 @@ namespace Feeder
 
         public async Task<IEnumerable<Tweet>> GetTweetAsync()
         {
-            IEnumerable<Status> statuses = await restClient.GetAsync<IEnumerable<Status>>(LastTenTweetsUrl, BearerToken);
+            IEnumerable<Status> statuses = await restClient.GetAsync<IEnumerable<Status>>(LastTenTweetsUrl);
 
             return statuses.Select(MapToTweet);
         }
